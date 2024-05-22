@@ -1,0 +1,9 @@
+﻿  archive.cpp
+C:\Users\filesop\OOP\OOP\archive\archive.cpp(26,33): warning C4267: аргумент: преобразование из "size_t" в "_Ty"; возможна потеря данных
+          with
+          [
+              _Ty=int
+          ]
+  main.cpp
+  Создание кода...
+  archive.vcxproj -> C:\Users\filesop\OOP\OOP\x64\Debug\archive.exe
