@@ -1,107 +1,95 @@
 #include <iostream>
-#include <stdexcept>
-#include "Archive.h"
+#include "archive.h"
+#include "utilities.h"
 
-int getNumberInput(const std::string& prompt) {
-    int num;
-    std::cout << prompt;
-    std::cin >> num;
-    if (std::cin.fail()) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        throw std::runtime_error("Invalid input. Please enter a valid number.");
-    }
-    return num;
-}
-
-void displayArchive(const std::vector<int>& mass) {
-    std::cout << "Архив: {";
-    if (mass.empty()) {
-        std::cout << "<пусто>}";
-    }
-    else {
-        for (size_t i = 0; i < mass.size() - 1; ++i) {
-            std::cout << mass[i] << ", ";
-        }
-        std::cout << mass.back() << "}";
-    }
-}
-
-void displayMatches(const std::vector<int>& matches, int num) {
-    std::cout << "Номера элементов со значением " << num << ": ";
-    if (matches.empty()) {
-        std::cout << "Совпадений нет.";
-    }
-    else {
-        for (size_t i = 0; i < matches.size() - 1; ++i) {
-            std::cout << matches[i] << ", ";
-        }
-        std::cout << matches.back();
-    }
-}
+enum Actions { EXIT, INSERT, FIND, REMOVE, CLEAN };
 
 int main() {
-    setlocale(LC_ALL, "");
+    TArchive<int> archive;
+    size_t n, pos;
+    int* values = nullptr;
+    int user;
 
-    Archive archive;
+    bool exit = false;
+    bool success;
+    InputSystem::InsertMode mode;
 
-    while (true) {
+    while (!exit) {
         system("cls");
-        displayArchive(archive.getArchive());
+        OutputSystem::show(archive);
+        std::cout << "Menu:\n 1. insert,\n 2. find,\n 3. delete,\n 4. clean,\n 0. exit.\nYour choose: ";
+        std::cin >> user;
 
-        std::cout << "\n\nМеню:\n";
-        std::cout << "1. Вставить\n";
-        std::cout << "2. Удалить\n";
-        std::cout << "3. Найти\n";
-        std::cout << "4. Очистить массив\n";
-        std::cout << "5. Выход\n";
+        size_t* positions = nullptr;  // Объявляем и инициализируем переменную здесь
 
-        try {
-            
-            int choice = getNumberInput("Ваш выбор: ");
-
-            switch (choice) {
-            case 1: {
-                int num = getNumberInput("Введите число для вставки: ");
-                archive.insertElement(num);
-                break;
-            }
-            case 2: {
-                std::cout << "Выберете тип удаления:\n";
-                std::cout << "1. По номеру\n";
-                std::cout << "2. По значению\n";
-                int deleteChoice = getNumberInput("Ваш выбор: ");
-                int num = getNumberInput("Какой элемент удалить: ");
-                if (deleteChoice == 1) {
-                    archive.deleteElementByNumber(num);
+        switch (user) {
+        case Actions::EXIT:
+            exit = true;
+            break;
+        case Actions::INSERT:
+            if (values != nullptr) { delete[] values; values = nullptr; }
+            values = InputSystem::insert<int>(n, pos, mode);
+            success = false;
+            if (mode == InputSystem::InsertMode::OneValue) {
+                try {
+                    archive.insert(values[0], pos);
+                    success = true;
                 }
-                else if (deleteChoice == 2) {
-                    archive.deleteElementByValue(num);
+                catch (std::exception& err) {
+                    std::cerr << err.what() << std::endl;
                 }
-                else {
-                    std::cout << "Неверный выбор для удаления.\n";
+            }
+            else if (mode == InputSystem::InsertMode::SeveralValues) {
+                try {
+                    archive.insert(values, n, pos);
+                    success = true;
                 }
-                break;
+                catch (std::exception& err) {
+                    std::cerr << err.what() << std::endl;
+                }
             }
-            case 3: {
-                int num = getNumberInput("Какой элемент найти: ");
-                std::vector<int> matches = archive.findElement(num);
-                displayMatches(matches, num);
-                break;
+            if (success) {
+                OutputSystem::insert();
             }
-            case 4:
-                archive.clearArchive();
-                break;
-            case 5:
-                return 0;
-            default:
-                std::cout << "У Вас нет такого выбора.\n";
+            system("pause");
+            break;
+        case Actions::FIND:
+            std::cout << "Input value to find: ";
+            int value;
+            std::cin >> value;
+            positions = archive.find_all(value);  // Используем positions здесь
+            if (positions) {
+                std::cout << "Found at positions: ";
+                for (size_t i = 1; i <= positions[0]; ++i) {
+                    std::cout << positions[i] << " ";
+                }
+                delete[] positions;  // Не забываем освобождать память
             }
-        }
-        catch (const std::exception& e) {
-            std::cerr << e.what() << std::endl;
+            else {
+                std::cout << "Value not found.";
+            }
+            std::cout << std::endl;
+            system("pause");
+            break;
+        case Actions::REMOVE:
+            std::cout << "Input position to remove: ";
+            std::cin >> pos;
+            try {
+                archive.remove_by_index(pos);
+            }
+            catch (std::exception& err) {
+                std::cerr << err.what() << std::endl;
+            }
+            system("pause");
+            break;
+        case Actions::CLEAN:
+            archive.clear();
+            OutputSystem::insert();
+            system("pause");
+            break;
         }
     }
 
+    if (values != nullptr) { delete[] values; }
     return 0;
 }

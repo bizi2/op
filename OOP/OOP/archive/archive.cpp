@@ -1,38 +1,27 @@
-#include "Archive.h"
-#include <stdexcept>
+#include "archive.h"
 
-Archive::Archive() {}
-
-void Archive::insertElement(int num) {
-    mass.push_back(num);
-}
-
-void Archive::deleteElementByNumber(int num) {
-    if (num < 1 || num > static_cast<int>(mass.size())) {
-        throw std::out_of_range("Index out of range.");
+template <typename T>
+TArchive<T>& TArchive<T>::insert(const T* arr, size_t n, size_t pos) {
+    if (_size < pos) {
+        throw std::logic_error("Ошибка в функции \"TArchive<T>& insert(const T* arr, size_t n, size_t pos)\": неправильное значение позиции.");
     }
-    mass.erase(mass.begin() + num - 1);
-}
-
-void Archive::deleteElementByValue(int num) {
-    auto it = std::remove(mass.begin(), mass.end(), num);
-    mass.erase(it, mass.end());
-}
-
-std::vector<int> Archive::findElement(int num) const {
-    std::vector<int> matches;
-    for (size_t i = 0; i < mass.size(); ++i) {
-        if (mass[i] == num) {
-            matches.push_back(i + 1);
-        }
+    // Действия при переполнении
+    if (_size + n > _capacity) {
+        reserve(_capacity + n);
     }
-    return matches;
+    // Сдвигаем элементы вправо
+    for (size_t i = _size; i > pos; --i) {
+        _data[i + n - 1] = _data[i - 1];
+        _states[i + n - 1] = _states[i - 1];
+    }
+    // Вставляем новые элементы
+    for (size_t i = 0; i < n; ++i) {
+        _data[pos + i] = arr[i];
+        _states[pos + i] = State::busy;
+    }
+    _size += n;
+    return *this;
 }
 
-void Archive::clearArchive() {
-    mass.clear();
-}
-
-const std::vector<int>& Archive::getArchive() const {
-    return mass;
-}
+// Явная инстанциация шаблона для типа int
+template class TArchive<int>;
