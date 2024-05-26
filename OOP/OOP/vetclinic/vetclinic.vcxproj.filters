@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов\archive">
+      <UniqueIdentifier>{4c4768cd-0c7e-4ad5-a85e-91e20600a927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\time">
+      <UniqueIdentifier>{e43c06d1-d90f-4792-9961-97b97f695e23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\data">
+      <UniqueIdentifier>{e4d326ba-57c9-4cd7-ba64-c15d17b7d235}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\cstring">
+      <UniqueIdentifier>{d96ea361-c69c-435e-b68a-d5ba8be4b143}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="archive.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="archive_impl.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="archivelib\archive.h">
+      <Filter>Файлы ресурсов\archive</Filter>
+    </ClInclude>
+    <ClInclude Include="archivelib\archive_impl.h">
+      <Filter>Файлы ресурсов\archive</Filter>
+    </ClInclude>
+    <ClInclude Include="archivelib\utilities.h">
+      <Filter>Файлы ресурсов\archive</Filter>
+    </ClInclude>
+    <ClInclude Include="timelib\time.h">
+      <Filter>Файлы ресурсов\time</Filter>
+    </ClInclude>
+    <ClInclude Include="datalib\data.h">
+      <Filter>Файлы ресурсов\data</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="archivelib\archive.cpp">
+      <Filter>Файлы ресурсов\archive</Filter>
+    </ClCompile>
+    <ClCompile Include="archivelib\main.cpp">
+      <Filter>Файлы ресурсов\archive</Filter>
+    </ClCompile>
+    <ClCompile Include="archivelib\utilities.cpp">
+      <Filter>Файлы ресурсов\archive</Filter>
+    </ClCompile>
+    <ClCompile Include="timelib\main.cpp">
+      <Filter>Файлы ресурсов\time</Filter>
+    </ClCompile>
+    <ClCompile Include="timelib\time.cpp">
+      <Filter>Файлы ресурсов\time</Filter>
+    </ClCompile>
+    <ClCompile Include="datalib\data.cpp">
+      <Filter>Файлы ресурсов\data</Filter>
+    </ClCompile>
+    <ClCompile Include="datalib\main.cpp">
+      <Filter>Файлы ресурсов\data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="timelib\ctime.vcxproj">
+      <Filter>Файлы ресурсов\time</Filter>
+    </None>
+    <None Include="timelib\ctime.vcxproj.filters">
+      <Filter>Файлы ресурсов\time</Filter>
+    </None>
+    <None Include="timelib\ctime.vcxproj.user">
+      <Filter>Файлы ресурсов\time</Filter>
+    </None>
+    <None Include="datalib\cdata.vcxproj">
+      <Filter>Файлы ресурсов\data</Filter>
+    </None>
+    <None Include="datalib\cdata.vcxproj.filters">
+      <Filter>Файлы ресурсов\data</Filter>
+    </None>
+    <None Include="datalib\cdata.vcxproj.user">
+      <Filter>Файлы ресурсов\data</Filter>
+    </None>
+  </ItemGroup>
+</Project>
